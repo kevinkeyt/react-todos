@@ -7,7 +7,7 @@ import Header from "./common/Header";
 
 function App() {
   return (
-    <div className="App">
+    <div className="max-w-md mx-auto flex p-6 bg-gray-100 mt-10 rounded-lg shadow-xl">
       <Header />
       <Switch>
         <Route exact path="/" component={HomePage} />
