@@ -15,7 +15,7 @@ export function loadTodos() {
   return todoApi.getTodos().then((todos) => {
     dispatcher.dispatch({
       actionType: actionTypes.LOAD_TODOS,
-      todos,
+      todos: todos,
     });
   });
 }

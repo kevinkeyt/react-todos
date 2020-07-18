@@ -32,13 +32,17 @@ Dispatcher.register((action) => {
       store.emitChange();
       break;
     case actionTypes.CREATE_TODO:
-      _todos.push(action.todo);
+      _todos = [..._todos, action.todo];
       store.emitChange();
       break;
     case actionTypes.UPDATE_TODO:
       _todos = _todos.map((todo) =>
         todo.id === action.todo.id ? action.todo : todo
       );
+      store.emitChange();
+      break;
+    case actionTypes.LOAD_TODOS:
+      _todos = action.todos;
       store.emitChange();
       break;
     default:

@@ -1,46 +1,42 @@
 import React, { useEffect, useState } from "react";
 import TodoList from "./TodoList";
-
-import * as todoApi from "../../api/todoApi";
 import AddTodo from "./AddTodo";
 
+import todoStore from "../../stores/todoStore";
+import { loadTodos, deleteTodo, saveTodo } from "../../actions/todoActions";
+
 const TodosPage = () => {
-  const [_todos, setTodos] = useState([]);
+  const [_todos, setTodos] = useState(todoStore.getTodos());
   const [todo, setTodo] = useState({
     title: "",
     completed: false,
   });
   useEffect(() => {
-    todoApi.getTodos().then((todos) => {
-      setTodos(todos);
-    });
+    todoStore.addChangeListener(onChange);
+    if (todoStore.getTodos().length === 0) loadTodos();
+    return () => todoStore.removeChangeListener(onChange);
   }, []);
+
+  function onChange() {
+    setTodos(todoStore.getTodos());
+  }
 
   function handleSubmit(event) {
     event.preventDefault();
-    todoApi.saveTodo(todo).then((todo) => {
-      _todos.push(todo);
-      setTodos([..._todos]);
-      setTodo({
-        title: "",
-        completed: false,
-      });
+    saveTodo(todo);
+    setTodo({
+      title: "",
+      completed: false,
     });
   }
 
   function handleRemove(id) {
-    todoApi.deleteTodo(id).then((_) => {
-      const items = _todos.filter((x) => x.id !== id);
-      setTodos([...items]);
-    });
+    deleteTodo(id);
   }
 
   function handleCompleted(todo) {
     todo.completed = !todo.completed;
-    todoApi.saveTodo(todo).then((todo) => {
-      const items = _todos.map((x) => (x.id === todo.id ? todo : x));
-      setTodos([...items]);
-    });
+    saveTodo(todo);
   }
 
   function handleChange(event) {
