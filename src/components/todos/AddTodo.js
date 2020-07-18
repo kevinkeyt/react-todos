@@ -5,7 +5,7 @@ const AddTodo = ({ todo, onSave, onChange }) => {
   return (
     <form onSubmit={onSave}>
       <input
-        className="bg-white focus:outline-none focus:shadow-outline border border-gray-300 rounded-lg py-2 px-4 block w-full appearance-none leading-normal"
+        className="bg-white focus:outline-none focus:shadow-outline border border-gray-300 rounded-lg py-2 px-4 block w-full appearance-none leading-normal my-5"
         type="text"
         name="title"
         value={todo.title}
