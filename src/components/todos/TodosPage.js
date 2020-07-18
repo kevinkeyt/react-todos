@@ -35,6 +35,14 @@ const TodosPage = () => {
     });
   }
 
+  function handleCompleted(todo) {
+    todo.completed = !todo.completed;
+    todoApi.saveTodo(todo).then((todo) => {
+      const items = _todos.map((x) => (x.id === todo.id ? todo : x));
+      setTodos([...items]);
+    });
+  }
+
   function handleChange(event) {
     const { name, value } = event.target;
     setTodo((todo) => ({
@@ -46,7 +54,11 @@ const TodosPage = () => {
   return (
     <div>
       <AddTodo todo={todo} onSave={handleSubmit} onChange={handleChange} />
-      <TodoList todos={_todos} onRemove={handleRemove} />
+      <TodoList
+        todos={_todos}
+        onRemove={handleRemove}
+        onCompleted={handleCompleted}
+      />
     </div>
   );
 };
